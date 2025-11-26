@@ -1,0 +1,24 @@
+# 秘密情報・設定ファイル
+.env*
+
+# 仮想環境
+.venv/*
+
+# キャッシュ, テスト
+**/__pycache__/**
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+
+# Editors
+.vscode/
+
+# Docker
+.dockerignore
+
+# Logs
+*.log
+
+# Google ADK
+.adk
