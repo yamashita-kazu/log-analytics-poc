@@ -1,0 +1,87 @@
+[tool.ruff]
+# 無視するディレクトリを指定
+exclude = [
+    ".env",
+    ".git",
+    ".github",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".vscode",
+    "__pycache__",
+    "build",
+    "dist"
+]
+
+# blackと同じ設定で、行の長さを88に設定
+line-length = 88
+# インデントは4スペース
+indent-width = 4
+
+# python3.11をターゲットに設定
+target-version = "py311"
+
+
+[tool.ruff.format]
+# 文字列はダブルクォートで囲む
+quote-style = "double"
+
+# Blackと同様に、インデントはスペースを使用
+indent-style = "space"
+
+# トレーリングカンマ(最後のカンマ)は尊重する
+skip-magic-trailing-comma = false
+
+# 改行の文字コード
+line-ending = "auto"
+
+# docstrings内のPythonコードをフォーマットするか否か。
+# Markdown, reStructuredTextのコードブロックやdoctestsをサポートしている。
+# 将来のバージョンではデフォルトでtrueになる予定
+docstring-code-format = false
+
+# docstrings内のPythonコードをフォーマットするときの1行の長さの設定。
+# `docstring-code-format`がtrueの場合のみ有効。
+# int | "dynamic"
+docstring-code-line-length = "dynamic"
+
+[tool.ruff.lint.isort]
+# trueの場合、大文字と小文字を区別する
+case-sensitive = false
+
+# trueの場合、アルファベット順ではなく文字数でソート（短い方が先頭）する
+length-sort = false
+
+# importセクションの順
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+
+[tool.ruff.lint]
+# 使用するルールを指定
+select = ["E", "F", "W"]
+ignore = ["E501", "E203"]
+
+# アンダースコアで始まる変数名の未使用を許可
+dummy-variable-rgx = "^_.*$"
+
+[tool.mypy]
+
+# --ignore-missing-imports
+ignore_missing_imports = true
+
+# --follow-imports=skip
+follow_imports = "skip"
+
+# --no-implicit-optional
+no_implicit_optional = true
+
+# --disallow-any-generics
+disallow_any_generics = true
+
+# --disallow-untyped-defs
+disallow_untyped_defs = true
+
+# --warn-redundant-casts
+warn_redundant_casts = true
+
+# --warn-return-any
+warn_return_any = true
