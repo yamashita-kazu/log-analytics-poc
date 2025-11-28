@@ -16,7 +16,7 @@ class ToolHelpers:
     def get_access_token(
         self, tenant_id: str, client_id: str, client_secret: str
     ) -> Any:
-        """Azure ADからアクセストークンを取得"""
+        """アクセストークンを取得"""
         token_url = f"https://login.microsoftonline.com/{tenant_id}/oauth2/token"
         token_payload = {
             "grant_type": "client_credentials",

@@ -1,5 +1,5 @@
 # 秘密情報・設定ファイル
-.env*
+.env
 
 # 仮想環境
 .venv/*
@@ -22,3 +22,9 @@
 
 # Google ADK
 .adk
+
+# ipynb
+*.ipynb_checkpoints
+*.ipynb
+
+trash/*
