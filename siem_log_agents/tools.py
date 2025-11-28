@@ -6,7 +6,7 @@ from typing import Any, Final
 
 from dotenv import load_dotenv
 
-from .kqls import MDEKqlQuerys, SentinelKqlQuerys
+from .kqls import BuildEntityKQLs, MDEKqlQuerys, SentinelKqlQuerys
 from .tool_helper import tool_helpers
 
 load_dotenv()
@@ -27,6 +27,37 @@ MDE_TENANT_ID: Final[str] = os.getenv("MDE_TENANT_ID", "")
 
 logging.basicConfig(level=logging.DEBUG, format="%(levelname)s:%(message)s")
 logger = logging.getLogger(__name__)
+
+
+class AnalyzeEntityTools:
+    """KQLクエリビルド用のツールをまとめたクラス"""
+
+    @staticmethod
+    def analyze_ip_entity(ip_address: str, from_day: int = 7) -> Any:
+        """指定されたIPアドレスを起点に
+        CommonSecurityLog、SigninLogs、Syslogテーブルを結合して取得するKQLクエリを実行します。
+        Args:
+            ip_address (str): 調査対象のIPアドレス
+            from_day (int): 検索開始日数（デフォルトは7日間）
+
+        Returns:
+            Any: KQLクエリを実行した結果
+        """
+        access_token = tool_helpers.util_api_call(
+            tool_helpers.get_access_token,
+            SENTINEL_TENANT_ID,
+            SENTINEL_CLIENT_ID,
+            SENTINEL_CLIENT_SECRET,
+        )
+        if not access_token:
+            return
+        kql_query = BuildEntityKQLs.build_ip_address_kql(
+            ip_address=ip_address, from_day=from_day
+        )
+        logger.info(f"\n実行するKQLクエリ:\n{kql_query}\n")
+        table_rows = _execute_kql_and_get_rows(access_token, kql_query)
+
+        return table_rows
 
 
 class SentinelTools:
@@ -154,7 +185,7 @@ def _execute_kql_and_get_rows(
     access_token: str,
     kql_query: str,
 ) -> Any:
-    """KQLクエリを実行し、結果のテーブル行を返します。"""
+    """KQLクエリを実行した結果を扱いやすい形にするutil関数"""
 
     logger.debug(f"\nGenerated KQL Query:\n{kql_query}\n")
 
@@ -182,14 +213,19 @@ def _execute_kql_and_get_rows(
 
 
 if __name__ == "__main__":
-    table_rows = asyncio.run(
-        SentinelTools.get_signin_logs_table(ip_address="34.99.24.149")
-    )
-    logger.info("\n--- signin log ---")
-    logger.info(json.dumps(table_rows, indent=2, ensure_ascii=False))
+    # table_rows = asyncio.run(
+    #     SentinelTools.get_signin_logs_table(ip_address="34.99.24.149")
+    # )
+    # logger.info("\n--- signin log ---")
+    # logger.info(json.dumps(table_rows, indent=2, ensure_ascii=False))
 
-    common_log_rows = asyncio.run(
-        SentinelTools.get_common_security_log_table(ip_address="34.99.24.149")
+    # common_log_rows = asyncio.run(
+    #     SentinelTools.get_common_security_log_table(ip_address="34.99.24.149")
+    # )
+    # logger.info("\n--- common security log ---")
+    # logger.info(json.dumps(common_log_rows, indent=2, ensure_ascii=False))
+
+    table_rows = asyncio.run(
+        AnalyzeEntityTools.analyze_ip_entity(ip_address="34.99.24.149")
     )
-    logger.info("\n--- common security log ---")
-    logger.info(json.dumps(common_log_rows, indent=2, ensure_ascii=False))
+    logger.info(json.dumps(table_rows, indent=2, ensure_ascii=False))

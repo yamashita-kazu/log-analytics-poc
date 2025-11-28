@@ -1,4 +1,50 @@
-"""KQLクエリを構築するための関数群。"""
+"""KQLクエリを構築するための関数群。
+TODO:
+    - 不要なカラムはprojectで落とす
+    - 時系列順にソートしてJSONで渡すことも可能
+    - summarizeで要約することも可能
+"""
+
+
+class BuildEntityKQLs:
+    """特定のエンティティ情報に基づいてKQLクエリを構築するクラス"""
+
+    @staticmethod
+    def build_ip_address_kql(ip_address: str, from_day: int = 7) -> str:
+        """指定されたIPアドレスを起点に
+        CommonSecurityLog、SigninLogs、Syslogテーブルを結合して取得するKQLクエリを構築します。
+
+        Args:
+            ip_address (str): 検索対象のIPアドレス
+            from_day (int): 検索開始日数
+
+        Returns:
+            str: KQLクエリ
+        """
+        kql_query = f"""
+        let target_ip = "{ip_address}";
+        let from_day = ago({from_day}d);
+
+        let CommonSecurityLogPart =
+            CommonSecurityLog
+            | where TimeGenerated >= from_day
+            | where SourceIP == target_ip or DestinationIP == target_ip or RemoteIP == target_ip;
+
+        let SigninLogsPart =
+            SigninLogs
+            | where TimeGenerated >= from_day
+            | where IPAddress == target_ip;
+
+        let SyslogPart =
+            Syslog
+            | where TimeGenerated >= from_day
+            | where SyslogMessage has target_ip or Computer has target_ip;
+
+        CommonSecurityLogPart
+        | union SigninLogsPart, SyslogPart
+        | sort by TimeGenerated desc
+        """
+        return kql_query
 
 
 class SentinelKqlQuerys:
