@@ -1,0 +1,118 @@
+{
+  "status": "success",
+  "table_schema": {
+    "table": "Syslog",
+    "columns": [
+      {
+        "name": "TenantId",
+        "type": "guid",
+        "description": "ID of the workspace that stores this record",
+        "isDefaultDisplay": true,
+        "isHidden": true
+      },
+      {
+        "name": "SourceSystem",
+        "type": "string",
+        "description": "Type of agent the data was collected from. For syslog the value is typically Linux.",
+        "isDefaultDisplay": true,
+        "isHidden": false
+      },
+      {
+        "name": "TimeGenerated",
+        "type": "datetime",
+        "description": "Date and time the record was created.",
+        "isDefaultDisplay": true,
+        "isHidden": false
+      },
+      {
+        "name": "MG",
+        "type": "guid",
+        "description": "ID of the management group for System Center Operations Manager agents.",
+        "isDefaultDisplay": true,
+        "isHidden": true
+      },
+      {
+        "name": "TimeCollected",
+        "type": "datetime",
+        "isDefaultDisplay": true,
+        "isHidden": true
+      },
+      {
+        "name": "ManagementGroupName",
+        "type": "string",
+        "isDefaultDisplay": true,
+        "isHidden": false
+      },
+      {
+        "name": "Computer",
+        "type": "string",
+        "description": "Computer from which the event originated.",
+        "isDefaultDisplay": true,
+        "isHidden": false
+      },
+      {
+        "name": "EventTime",
+        "type": "datetime",
+        "description": "Date and time that the event was generated.",
+        "isDefaultDisplay": true,
+        "isHidden": false
+      },
+      {
+        "name": "Facility",
+        "type": "string",
+        "description": "The part of the system that generated the message.",
+        "isDefaultDisplay": true,
+        "isHidden": false
+      },
+      {
+        "name": "HostName",
+        "type": "string",
+        "description": "Name of the system from which the message originated.",
+        "isDefaultDisplay": true,
+        "isHidden": false
+      },
+      {
+        "name": "SeverityLevel",
+        "type": "string",
+        "description": "Severity level of the event.",
+        "isDefaultDisplay": true,
+        "isHidden": false
+      },
+      {
+        "name": "SyslogMessage",
+        "type": "string",
+        "description": "Text of the message.",
+        "isDefaultDisplay": true,
+        "isHidden": false
+      },
+      {
+        "name": "ProcessID",
+        "type": "int",
+        "description": "ID of the process that generated the message.",
+        "isDefaultDisplay": true,
+        "isHidden": false
+      },
+      {
+        "name": "HostIP",
+        "type": "string",
+        "description": "IP address of the system from which the message originated. Depending on network configuration/topology, this may have a blank or placeholder value, especially when the message originates from a remote device.",
+        "isDefaultDisplay": true,
+        "isHidden": false
+      },
+      {
+        "name": "ProcessName",
+        "type": "string",
+        "description": "Name of the process that generated the message.",
+        "isDefaultDisplay": true,
+        "isHidden": false
+      },
+      {
+        "name": "CollectorHostName",
+        "type": "string",
+        "description": "Name of the system on which the collector agent is installed.",
+        "isDefaultDisplay": true,
+        "isHidden": false
+      }
+    ]
+  }
+}
