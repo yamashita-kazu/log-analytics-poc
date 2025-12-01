@@ -1,8 +1,5 @@
 """KQLクエリを構築するための関数群。
-TODO:
-    - 不要なカラムはprojectで落とす
-    - 時系列順にソートしてJSONで渡すことも可能
-    - summarizeで要約することも可能
+TODO: 不要なカラムはprojectで落とす
 """
 
 
@@ -13,13 +10,8 @@ class BuildEntityKQLs:
     def build_ip_address_kql(ip_address: str, from_day: int = 7) -> str:
         """指定されたIPアドレスを起点に
         CommonSecurityLog、SigninLogs、Syslogテーブルを結合して取得するKQLクエリを構築します。
-
-        Args:
-            ip_address (str): 検索対象のIPアドレス
-            from_day (int): 検索開始日数
-
-        Returns:
-            str: KQLクエリ
+        NOTE:
+            - Syslogは曖昧検索
         """
         kql_query = f"""
         let target_ip = "{ip_address}";

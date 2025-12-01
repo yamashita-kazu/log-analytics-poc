@@ -28,3 +28,6 @@
 *.ipynb
 
 trash/*
+
+eval/*
+docs/*

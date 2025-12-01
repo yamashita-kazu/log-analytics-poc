@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-# ログ分析Agentの検証用コード
-=======
 # ログ分析Agentの検証用コード
 
 ## 実行方法
@@ -10,6 +7,5 @@ $ pip install -U pip && pip install -r requirements.txt
 ```
 プロジェクトのルートで以下を実行
 ```
-$ adk web
+$ adk web --log_level DEBUG
 ```
->>>>>>> Stashed changes
